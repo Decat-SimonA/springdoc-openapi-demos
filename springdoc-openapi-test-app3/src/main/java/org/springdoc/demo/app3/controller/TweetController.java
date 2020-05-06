@@ -18,6 +18,8 @@
 
 package org.springdoc.demo.app3.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import javax.validation.Valid;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,7 +71,7 @@ public class TweetController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "get Tweet By Id"),
 			@ApiResponse(responseCode = "404", description = "tweet not found") })
 	@GetMapping("/tweets/{id}")
-	public Mono<ResponseEntity<TweetDTO>> getTweetById(@PathVariable(value = "id") String tweetId) {
+	public Mono<ResponseEntity<TweetDTO>> getTweetById(@Parameter(name = "foo") @PathVariable(value = "id") String tweetId) {
 		return tweetRepository.findById(tweetId).map(savedTweet -> ResponseEntity.ok(tweetMapper.toDTO(savedTweet)))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
